@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dash Board</title>
+</head>
+<body>
+{% for c in myclasslist %}
+    <a href="/{{ c.class_name }}">{{ c.class_name }}</a>
+    &nbsp;&nbsp;
+    <a href="/del{{ c.class_id }}">
+        <button>DELETE</button>
+    </a>
+{% endfor %}
+</body>
+</html>
