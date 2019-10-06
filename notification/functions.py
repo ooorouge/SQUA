@@ -1,12 +1,19 @@
 import data.models
 
 # assume that I get a account_instance from Bora
+'''
 stu2 = data.models.Account.objects.all()[1]
 stu3 = data.models.Account.objects.all()[2]
 stu4 = data.models.Account.objects.all()[3]
 notification1 = data.models.Notification.objects.all()[0]
 notification2 = data.models.Notification.objects.all()[1]
 notification3 = data.models.Notification.objects.all()[2]
+'''
+
+
+def account_get_notification(account_instance):
+    temp_notification_objects = data.models.Notification.objects.filter(receiver_instance=account_instance)
+    return temp_notification_objects
 
 
 def is_all_read(account_instance):
