@@ -26,8 +26,34 @@ def getAllProfile(s_ins):
             skill]
     return list
 
-def listRequested(request):
+def listRequestedmine(request):
     list = getAllProfile(getIDInstance())
+
+    '''
+    hm = {}
+        for sins in list[7]:
+        if (sins.class_instance.class_name in hm):
+            hm[sins.class_instance.class_name].append(sins.label)
+        else:
+            hm[sins.class_instance.class_name] = [sins.label]
+    list[7] = hm
+    '''
+
+    return render(request, 'userprofile.html', {
+        'fname':list[0],
+        'lname':list[1],
+        'email':list[2],
+        'incins':list[3],
+        'photo':list[4],
+        'desins':list[5],
+        'encins':list[6],
+        'sins':list[7]
+    })
+
+def listRequested(request):
+    uid = request.get_full_path().split('/account/')[-1]
+    u_ins = DataModel.Account.objects.filter(account_id=uid)
+    list = getAllProfile(u_ins[0])
 
     '''
     hm = {}
