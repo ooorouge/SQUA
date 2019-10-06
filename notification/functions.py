@@ -1,7 +1,6 @@
 import data.models
 
 # assume that I get a account_instance from Bora
-# following instances for test
 stu2 = data.models.Account.objects.all()[1]
 stu3 = data.models.Account.objects.all()[2]
 stu4 = data.models.Account.objects.all()[3]
@@ -83,6 +82,15 @@ def join_group(student_instance, class_instance, group_id):
     return True
 
 
+def add_group_name(group_id:int):
+    temp_obj = data.models.Group.objects.filter(group_id=group_id)
+    if temp_obj:
+        # already have that group_id
+        return False
+    new_group = data.models.Group(group_id=group_id)
+    new_group.save()
+
+
 def accept_invitation(current_account: data.models.Account, notification_instance: data.models.Notification):
     sender = notification_instance.sender_instance
     receiver = notification_instance.receiver_instance
@@ -121,15 +129,18 @@ def accept_invitation(current_account: data.models.Account, notification_instanc
         # if sender have a group
         group_num = sender_have_group
         join_group(receiver, temp_class, group_num)
+        notification_instance.status = 1
+        notification_instance.save()
         return True
     else:
         # if sender don't have a group
         group_num = notification_instance.notification_id
         join_group(receiver, temp_class, group_num)
         join_group(sender, temp_class, group_num)
+        add_group_name(group_num)
+        notification_instance.status = 1
+        notification_instance.save()
         return True
-
-
 
 
 if __name__ == '__main__':
