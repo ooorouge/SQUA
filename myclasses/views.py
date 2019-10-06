@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from data import models as DataModel
 
@@ -6,7 +7,7 @@ def getIDInstance():
     """
     :return: current student instance who clicked
     """
-    return DataModel.Account.objects.all()[1]
+    return DataModel.Account.objects.all()[2]
 
 def getMyClass(s_ins):
     """
@@ -17,7 +18,7 @@ def getMyClass(s_ins):
     ls = []
     for c in classes:
         ls.append(c.class_instance)
-        #if ls is null
+        # if ls is null
     return ls
 
 def listRequested(request):
@@ -33,9 +34,11 @@ def classDelete(request):
     :param request:
     :return: delete some class
     """
-    _assert = input("Enter y to confirm")
+    request.method = 'POST'
     str = request.get_full_path()
-    class_id = str.split("/del")[-1]
-    if (_assert == "y"):
-
-        _del = DataModel.Class.objects.filter(class_id=class_id)
+    class_id = str.split("del")[-1]
+    if getIDInstance().is_instructor:
+        return HttpResponseRedirect('/dashboard/del'+class_id)
+    else:
+        # return render(request, 'studentDashBoard.html', {'myclasslist': getMyClass(getIDInstance())})
+        return HttpResponseRedirect('/dashboard/del'+class_id)
