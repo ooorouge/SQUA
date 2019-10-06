@@ -11,6 +11,8 @@ class Account(models.Model):
     password = models.CharField(max_length=30)
     is_instructor = models.BooleanField(default=False)
     photo = models.FileField(default=None, blank=True)
+    
+
 
 
 class Class(models.Model):
@@ -50,6 +52,10 @@ class Skill_label(models.Model):
     student_instance = models.ForeignKey('Account', on_delete=models.CASCADE)
     class_instance = models.ForeignKey('Class', on_delete=models.CASCADE)
     label = models.CharField(max_length=20)
+    def __str__(self):
+        return self.label + ' ' + \
+        self.student_instance.first_name + ' ' + \
+        self.student_instance.last_name
 
 
 # a student's self description in a class
