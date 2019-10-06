@@ -5,12 +5,22 @@
     <title>Dash Board</title>
 </head>
 <body>
+<h1>Your classes: </h1>
+<br>
+<script>
+    function confirm_delete(str) {
+        var boo = prompt("Type DELETE to confirm");
+        if (boo === "DELETE") {
+            var s = "/dashboard/del";
+            s+=str;
+            window.location.href=s;
+        }
+    }
+</script>
 {% for c in myclasslist %}
-    <a href="/{{ c.class_name }}">{{ c.class_name }}</a>
-    &nbsp;&nbsp;
-    <a href="/del{{ c.class_id }}">
-        <button>DELETE</button>
-    </a>
+    <a href="/class/{{ c.class_name }}">{{ c.class_name }}</a>
+    &nbsp;&nbsp
+    <button onClick="confirm_delete({{ c.class_id }})">DELETE</button>
 {% endfor %}
 </body>
 </html>
