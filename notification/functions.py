@@ -47,6 +47,7 @@ def decline_invitation(current_account: data.models.Account, notification_instan
         print("notification has been processed, strange here")
         return False
     notification_instance.status = 2
+    notification_instance.read = True
     notification_instance.save()
     # maybe you need to notify sender
     return sender
@@ -137,6 +138,7 @@ def accept_invitation(current_account: data.models.Account, notification_instanc
         group_num = sender_have_group
         join_group(receiver, temp_class, group_num)
         notification_instance.status = 1
+        notification_instance.read = True
         notification_instance.save()
         return True
     else:
@@ -146,6 +148,7 @@ def accept_invitation(current_account: data.models.Account, notification_instanc
         join_group(sender, temp_class, group_num)
         add_group_name(group_num)
         notification_instance.status = 1
+        notification_instance.read = True
         notification_instance.save()
         return True
 

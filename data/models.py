@@ -47,15 +47,21 @@ class Relationship(models.Model):
     class_instance = models.ForeignKey('Class', on_delete=models.CASCADE)
     group_id = models.BigIntegerField(default=-1)  # It's a sql type ForeignKey referred to notification_id
 
+    def __str__(self):
+        return 'account ' + str(self.student_instance.account_id) + ' in class ' + \
+               str(self.class_instance.class_id) + ' ' + self.class_instance.class_name + ' group ' + \
+               str(self.group_id)
+
 
 class Skill_label(models.Model):
     student_instance = models.ForeignKey('Account', on_delete=models.CASCADE)
     class_instance = models.ForeignKey('Class', on_delete=models.CASCADE)
     label = models.CharField(max_length=20)
+
     def __str__(self):
         return self.label + ' ' + \
-        self.student_instance.first_name + ' ' + \
-        self.student_instance.last_name
+               self.student_instance.first_name + ' ' + \
+               self.student_instance.last_name
 
 
 # a student's self description in a class
