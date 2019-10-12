@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <title>User Profile</title>
 </head>
+{% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+{% endif %}
 <p>
-<h1>Your Profile</h1>
+<h1>{{ fname }} {{ lname }}'s Profile</h1>
     <button onclick="location.href='{% url 'profedit' %}'">EDIT</button>
 <h3>Personal information</h3>
-    <figure>{{ photo }}</figure>
+    {% load static %}
+    <img src="{{ photo.name }}" alt="{{ photo.name }}">
     <p>Name:{{ fname }}&nbsp;{{ lname }}&nbsp;Email:{{ email }}</p>
 <div>Your are instructor(s) of the following classes</div>
 {% for ic in incins %}
