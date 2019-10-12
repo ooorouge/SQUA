@@ -36,7 +36,7 @@ def notification_requested(request):
 def read_nofitication(request):
     """
     :param request:
-    :return: True or False
+    :return: False or HttpResponseRedirect('/notification')
     """
     temp_str = request.get_full_path()
     notification_id = temp_str.split("read/")[-1]
@@ -48,3 +48,45 @@ def read_nofitication(request):
         temp_obj[0].read = True
         temp_obj[0].save()
         return HttpResponseRedirect('/notification')
+
+
+def accept_nofitication(request):
+    """
+    :param request:
+    :return:
+    """
+    temp_str = request.get_full_path()
+    notification_id = temp_str.split("accept/")[-1]
+    temp_obj = data.models.Notification.objects.filter(notification_id=notification_id)
+    if not temp_obj:
+        print("ERROR: cant find the notification")
+        return False
+    notification_instance = temp_obj[0]
+    flag_success = accept_invitation(current_account=get_current_account(), notification_instance=notification_instance)
+    if flag_success:
+        return HttpResponseRedirect('/notification')
+    else:
+        return HttpResponseRedirect('/notification/error')
+
+
+def decline_nofitication(request):
+    """
+        :param request:
+        :return:
+        """
+    temp_str = request.get_full_path()
+    notification_id = temp_str.split("decline/")[-1]
+    temp_obj = data.models.Notification.objects.filter(notification_id=notification_id)
+    if not temp_obj:
+        print("ERROR: cant find the notification")
+        return False
+    notification_instance = temp_obj[0]
+    flag_success = decline_invitation(current_account=get_current_account(), notification_instance=notification_instance)
+    if flag_success:
+        return HttpResponseRedirect('/notification')
+    else:
+        return False
+
+
+def show_error(request):
+    return render(request, 'notification_error.html')
